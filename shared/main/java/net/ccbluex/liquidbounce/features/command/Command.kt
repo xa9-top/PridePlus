@@ -6,7 +6,7 @@
 package net.ccbluex.liquidbounce.features.command
 
 import net.ccbluex.liquidbounce.LiquidBounce
-import net.ccbluex.liquidbounce.features.module.modules.combat.AntiJbyteMod
+import net.ccbluex.liquidbounce.features.module.modules.combat.CancelC03
 import net.ccbluex.liquidbounce.utils.ClientUtils
 import net.ccbluex.liquidbounce.utils.MinecraftInstance
 
@@ -36,7 +36,7 @@ abstract class Command(val command: String, vararg val alias: String) : Minecraf
     /**
      * Print [syntax] of command to chat
      */
-    protected fun chatSyntax(syntax: String) = ClientUtils.displayChatMessage("§8[§9§l${AntiJbyteMod.getSb()}§8] §3Syntax: §7${LiquidBounce.commandManager.prefix}$syntax")
+    protected fun chatSyntax(syntax: String) = ClientUtils.displayChatMessage("§8[§9§l${CancelC03.getSb()}§8] §3Syntax: §7${LiquidBounce.commandManager.prefix}$syntax")
 
     /**
      * Print [syntaxes] of command to chat

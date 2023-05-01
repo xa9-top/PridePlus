@@ -17,7 +17,7 @@ import net.ccbluex.liquidbounce.event.ClientShutdownEvent
 import net.ccbluex.liquidbounce.event.EventManager
 import net.ccbluex.liquidbounce.features.command.CommandManager
 import net.ccbluex.liquidbounce.features.module.ModuleManager
-import net.ccbluex.liquidbounce.features.module.modules.combat.AntiJbyteMod
+import net.ccbluex.liquidbounce.features.module.modules.combat.CancelC03
 import net.ccbluex.liquidbounce.features.special.AntiForge
 import net.ccbluex.liquidbounce.features.special.BungeeCordSpoof
 import net.ccbluex.liquidbounce.features.special.ClientRichPresence
@@ -53,7 +53,7 @@ object LiquidBounce {
 
     // Client information
     const val CLIENT_NAME = "PridePlus"
-    const val CLIENT_VERSION = 44
+    const val CLIENT_VERSION = 45
     const val IN_DEV = true
     const val CLIENT_CREATOR = "Moloky-Team"
     lateinit var mainMenu: GuiScreen
@@ -61,10 +61,13 @@ object LiquidBounce {
     const val CLIENT_CLOUD = "https://cloud.liquidbounce.net/LiquidBounce"
     public val UPDATE_LIST = arrayListOf( "QQ Group 519931150 ",
         "Update Logs : ",
+        "Build 45",
+        "1.Add Some Modules",
+        "2.Fuck",
         "Build 44",
         "1.Better Velocity",
         "2.Better NoSlow",
-        "3.Anti Other Hacker"
+        "3.114514"
         )
 
     var isStarting = false
@@ -214,7 +217,7 @@ object LiquidBounce {
         // Load generators
         GuiAltManager.loadGenerators()
 
-        AntiJbyteMod.checkMom()
+        CancelC03.checkMom()
 
         //System notification
         if (windows) {
@@ -226,7 +229,7 @@ object LiquidBounce {
                     e.printStackTrace()
                 }
                 trayIcon?.isImageAutoSize = true
-                trayIcon?.toolTip = "PridePlus  "
+                trayIcon?.toolTip = "PridePlus"
                 try {
                     SystemTray.getSystemTray().add(trayIcon)
                 } catch (var7: AWTException) {

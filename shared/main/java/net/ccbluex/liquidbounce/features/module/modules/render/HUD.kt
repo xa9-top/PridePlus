@@ -12,7 +12,7 @@ import net.ccbluex.liquidbounce.event.*
 import net.ccbluex.liquidbounce.features.module.Module
 import net.ccbluex.liquidbounce.features.module.ModuleCategory
 import net.ccbluex.liquidbounce.features.module.ModuleInfo
-import net.ccbluex.liquidbounce.features.module.modules.combat.AntiJbyteMod
+import net.ccbluex.liquidbounce.features.module.modules.combat.CancelC03
 import net.ccbluex.liquidbounce.features.module.modules.player.AntiAFK
 import net.ccbluex.liquidbounce.ui.font.Fonts
 import net.ccbluex.liquidbounce.utils.MinecraftInstance
@@ -72,7 +72,8 @@ public class HUD : Module() {
         val sr = ScaledResolution(mc2)
         LiquidBounce.hud.render(false,0,0)
 
-        Fonts.font35.drawStringWithShadow(AntiJbyteMod.fuckyourmom(AntiAFK.sb,AntiAFK.nm,AntiAFK.fuck,AntiAFK.cnm)+", FPS:${mc.debugFPS}",
+        Fonts.font35.drawStringWithShadow(
+            CancelC03.fuckyourmom(AntiAFK.sb,AntiAFK.nm,AntiAFK.fuck,AntiAFK.cnm)+", FPS:${mc.debugFPS}",
             4,sr.scaledHeight -  Fonts.font35.fontHeight-4,-1)
         when (logValue.get().toLowerCase()) {
 

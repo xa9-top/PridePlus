@@ -19,7 +19,7 @@ import net.minecraft.network.play.client.CPacketEntityAction
 @ModuleInfo(name = "SuperKnockback", description = "Fix by JIEMO", category = ModuleCategory.COMBAT)
 class SuperKnockback : Module() {
     private val hurtTimeValue = IntegerValue("HurtTime", 10, 0, 10)
-    private val modeValue = ListValue("Mode", arrayOf("Normal", "MCYC", "ExtraPacket", "WTap", "Packet", "HYTPacket", "Tick" ), "Normal")
+    private val modeValue = ListValue("Mode", arrayOf("Normal", "MCYC", "ExtraPacket", "WTap", "WTapPlus","Packet", "HYTPacket", "Tick" ), "Normal")
     private val onlyMoveValue = BoolValue("OnlyMove", false)
     private val onlyGroundValue = BoolValue("OnlyGround", false)
     private val delay = IntegerValue("Delay", 0, 0, 500)
@@ -82,6 +82,15 @@ class SuperKnockback : Module() {
                     if (mc2.player.isSprinting) {
                         mc2.player.isSprinting = false
                     }
+                    mc.netHandler.addToSendQueue(classProvider.createCPacketEntityAction(mc.thePlayer!!, ICPacketEntityAction.WAction.START_SPRINTING))
+                    mc.thePlayer!!.serverSprintState = true
+                }
+                "wtapplus" -> {
+                    if (mc2.player.isSprinting) {
+                        mc2.player.isSprinting = false
+                    }
+                    mc.netHandler.addToSendQueue(classProvider.createCPacketEntityAction(mc.thePlayer!!, ICPacketEntityAction.WAction.START_SPRINTING))
+                    mc.netHandler.addToSendQueue(classProvider.createCPacketEntityAction(mc.thePlayer!!, ICPacketEntityAction.WAction.STOP_SPRINTING))
                     mc.netHandler.addToSendQueue(classProvider.createCPacketEntityAction(mc.thePlayer!!, ICPacketEntityAction.WAction.START_SPRINTING))
                     mc.thePlayer!!.serverSprintState = true
                 }

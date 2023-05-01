@@ -29,7 +29,7 @@ class ModuleManager : Listenable {
     var shouldNotify : Boolean = false
     var toggleSoundMode = 0
 
-     public   var toggleVolume = 0F
+    var toggleVolume = 0F
 
     init {
         LiquidBounce.eventManager.registerListener(this)
@@ -220,6 +220,8 @@ class ModuleManager : Listenable {
                 Title::class.java,
                 NoSlowBreak::class.java,
             JumpCircle::class.java,
+            NoLagBack::class.java,
+            HytDisabler::class.java,
                 PortalMenu::class.java
         )
 

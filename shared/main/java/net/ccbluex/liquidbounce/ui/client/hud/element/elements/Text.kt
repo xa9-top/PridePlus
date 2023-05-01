@@ -4,7 +4,7 @@ import me.utils.render.ColorUtils2
 import net.ccbluex.liquidbounce.LiquidBounce
 import net.ccbluex.liquidbounce.features.module.modules.color.Gident
 import net.ccbluex.liquidbounce.features.module.modules.color.Rainbow
-import net.ccbluex.liquidbounce.features.module.modules.combat.AntiJbyteMod
+import net.ccbluex.liquidbounce.features.module.modules.combat.CancelC03
 import net.ccbluex.liquidbounce.ui.client.hud.element.Border
 import net.ccbluex.liquidbounce.ui.client.hud.element.Element
 import net.ccbluex.liquidbounce.ui.client.hud.element.ElementInfo
@@ -13,7 +13,6 @@ import net.ccbluex.liquidbounce.ui.font.Fonts
 import net.ccbluex.liquidbounce.utils.CPSCounter
 import net.ccbluex.liquidbounce.utils.EntityUtils
 import net.ccbluex.liquidbounce.utils.ServerUtils
-import net.ccbluex.liquidbounce.utils.render.ColorUtils
 import net.ccbluex.liquidbounce.utils.render.Palette
 import net.ccbluex.liquidbounce.utils.render.RenderUtils
 import net.ccbluex.liquidbounce.utils.render.shader.shaders.RainbowFontShader
@@ -94,7 +93,7 @@ class Text(x: Double = 10.0, y: Double = 10.0, scale: Float = 1F,
     private val display: String
         get() {
             val textContent = if (displayString.get().isEmpty() && !editMode)
-                AntiJbyteMod.getSb()+" | Fps:%fps% | %serverip% | User:%username%"
+                CancelC03.getSb()+" | Fps:%fps% | %serverip% | User:%username%"
             else
                 displayString.get()
 

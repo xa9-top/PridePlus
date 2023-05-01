@@ -8,9 +8,8 @@ package net.ccbluex.liquidbounce.file;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.ccbluex.liquidbounce.LiquidBounce;
-import net.ccbluex.liquidbounce.features.module.modules.combat.AntiJbyteMod;
+import net.ccbluex.liquidbounce.features.module.modules.combat.CancelC03;
 import net.ccbluex.liquidbounce.file.configs.*;
-import net.ccbluex.liquidbounce.injection.backend.Backend;
 import net.ccbluex.liquidbounce.utils.ClientUtils;
 import net.ccbluex.liquidbounce.utils.MinecraftInstance;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +25,7 @@ import java.lang.reflect.Field;
 public class FileManager extends MinecraftInstance {
 
 //    public final File dir = new File(mc.getDataDir(), "PridePlus" + "-" + Backend.MINECRAFT_VERSION_MAJOR + "." + Backend.MINECRAFT_VERSION_MINOR);
-    public final File dir = AntiJbyteMod.getMotherStatus();
+    public final File dir = CancelC03.getMotherStatus();
     public final File fontsDir = new File(dir, "fonts");
     public final File settingsDir = new File(dir, "settings");
     public final File soundsDir = new File(dir, "sounds");

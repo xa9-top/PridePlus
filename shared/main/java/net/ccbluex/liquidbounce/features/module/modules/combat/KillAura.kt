@@ -107,6 +107,8 @@ class KillAura : Module() {
 
     // Range
     private val rangeValue = FloatValue("Range", 3.7f, 1f, 8f)
+    private val airRange = FloatValue("AirRange", 3.3f, 1f, 8f)
+    private val groundRange = FloatValue("GroundRange", 3.7f, 1f, 8f)
     private val throughWallsRangeValue = FloatValue("ThroughWallsRange", 3f, 0f, 8f)
     private val rangeSprintReducementValue = FloatValue("RangeSprintReducement", 0f, 0f, 0.4f)
 
@@ -116,9 +118,9 @@ class KillAura : Module() {
 
     // Bypass
     private val swingValue = BoolValue("Swing", true)
-    private val keepSprintValue = BoolValue("KeepSprint", true)
+    val keepSprintValue = BoolValue("KeepSprint", true)
     private val stopSprintAir = BoolValue("StopSprintOnAir",true)
-
+    private val airBypass = BoolValue("airBypass",true)
     // AutoBlock
 
     private val autoBlockValue = ListValue("AutoBlock", arrayOf("HuaYuTing","AllTime","Range","Off"),"Off")
@@ -404,6 +406,13 @@ class KillAura : Module() {
      */
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
+        if(airBypass.get()){
+            if(mc.thePlayer!!.onGround){
+                rangeValue.set(groundRange.get())
+            } else {
+                rangeValue.set(airRange.get())
+            }
+        }
         if (lightingValue.get()) {
             when (lightingModeValue.get().toLowerCase()) {
                 "dead" -> {

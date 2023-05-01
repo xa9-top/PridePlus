@@ -33,12 +33,12 @@ class HytGetName : Module() {
                         val name = matcher.group(1).trim()
                         if (name != "") {
                             LiquidBounce.fileManager.friendsConfig.addFriend(name)
-                            ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
+                            ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
                             Thread {
                                 try {
                                     Thread.sleep(5000)
                                     LiquidBounce.fileManager.friendsConfig.removeFriend(name)
-                                    ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
+                                    ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
                                 } catch (ex: InterruptedException) {
                                     ex.printStackTrace()
                                 }
@@ -49,12 +49,12 @@ class HytGetName : Module() {
                         val name = matcher2.group(1).trim()
                         if (name != "") {
                             LiquidBounce.fileManager.friendsConfig.addFriend(name)
-                            ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
+                            ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
                             Thread {
                                 try {
                                     Thread.sleep(5000)
                                     LiquidBounce.fileManager.friendsConfig.removeFriend(name)
-                                    ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
+                                    ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
                                 } catch (ex: InterruptedException) {
                                     ex.printStackTrace()
                                 }
@@ -69,12 +69,12 @@ class HytGetName : Module() {
                         val name = matcher.group(1).trim()
                         if (name != "") {
                             LiquidBounce.fileManager.friendsConfig.addFriend(name)
-                            ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
+                            ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
                             Thread {
                                 try {
                                     Thread.sleep(10000)
                                     LiquidBounce.fileManager.friendsConfig.removeFriend(name)
-                                    ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
+                                    ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
                                 } catch (ex: InterruptedException) {
                                     ex.printStackTrace()
                                 }
@@ -85,12 +85,12 @@ class HytGetName : Module() {
                         val name = matcher2.group(1).trim()
                         if (name != "") {
                             LiquidBounce.fileManager.friendsConfig.addFriend(name)
-                            ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
+                            ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d添加无敌人：" + name)
                             Thread {
                                 try {
                                     Thread.sleep(10000)
                                     LiquidBounce.fileManager.friendsConfig.removeFriend(name)
-                                    ClientUtils.displayChatMessage("§8[§c§l"+AntiJbyteMod.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
+                                    ClientUtils.displayChatMessage("§8[§c§l"+ CancelC03.getSb()+"提醒您§8]§c§d删除无敌人：" + name)
                                 } catch (ex: InterruptedException) {
                                     ex.printStackTrace()
                                 }
