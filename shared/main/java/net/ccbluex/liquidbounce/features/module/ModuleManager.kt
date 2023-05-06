@@ -42,7 +42,6 @@ class ModuleManager : Listenable {
         ClientUtils.getLogger().info("[ModuleManager] Loading modules...")
 
         registerModules(
-            Velocity2::class.java,
             OldScaffold::class.java,
             NoC03::class.java,
                 SpeedMine::class.java,
@@ -221,7 +220,7 @@ class ModuleManager : Listenable {
                 NoSlowBreak::class.java,
             JumpCircle::class.java,
             NoLagBack::class.java,
-            HytDisabler::class.java,
+            PrideDisabler::class.java,
                 PortalMenu::class.java
         )
 

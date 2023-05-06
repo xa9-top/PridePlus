@@ -21,6 +21,9 @@ import net.ccbluex.liquidbounce.value.BoolValue
 import net.ccbluex.liquidbounce.value.FloatValue
 import net.ccbluex.liquidbounce.value.IntegerValue
 import net.ccbluex.liquidbounce.value.ListValue
+import net.minecraft.network.play.client.CPacketConfirmTransaction
+import net.minecraft.network.play.server.SPacketConfirmTransaction
+import net.minecraft.network.play.server.SPacketEntityVelocity
 
 import kotlin.math.cos
 import kotlin.math.sin
@@ -34,7 +37,7 @@ class Velocity : Module() {
      */
     private val horizontalValue = FloatValue("Horizontal", 0F, 0F, 1F)
     private val verticalValue = FloatValue("Vertical", 0F, 0F, 1F)
-    private val modeValue = ListValue("Mode", arrayOf("NewGrimAC","Custom","AAC4","Simple","AAC", "AACPush", "AACZero",
+    private val modeValue = ListValue("Mode", arrayOf("GrimAC-FDP","GrimAC-C03","NewGrimAC","Custom","AAC4","Simple","AAC", "AACPush", "AACZero",
         "Reverse", "SmoothReverse", "Jump", "AAC5Reduce", "HytPacketA" ,"Glitch","HytCancel","HytTick","Vanilla","HytTest","HytNewTest","HytPacket","NewAAC4","FeiLe","HytMotion","NewHytMotion","HytPacketB","HytMotionB","HytPacketFix","S27","LatestTestHyt","Grim-Motion","GrimReduce"), "Vanilla")
     private val aac4XZReducerValue = FloatValue("AAC4XZReducer", 1.36F, 1F, 3F)
     private val newaac4XZReducerValue = FloatValue("NewAAC4XZReducer", 0.45F, 0F, 1F)
@@ -107,7 +110,6 @@ class Velocity : Module() {
             "grimreduce"->{
                 if (thePlayer.hurtTime > 0){
                     thePlayer.motionX += -1.0E-7
-                    thePlayer.motionY += -1.0E-7
                     thePlayer.motionZ += -1.0E-7
                     thePlayer.isAirBorne = true
                 }
@@ -115,7 +117,6 @@ class Velocity : Module() {
             "grim-motion" -> {
                 if ( thePlayer.hurtTime > 0) {
                     thePlayer.motionX += -1.1E-7
-                    thePlayer.motionY += -1.1E-7
                     thePlayer.motionZ += -1.2E-7
                     thePlayer.isAirBorne = true
                 }
@@ -372,6 +373,26 @@ class Velocity : Module() {
             velocityTimer.reset()
 
             when (modeValue.get().toLowerCase()) {
+                "grimac-c03" -> {
+                    if(thePlayer.hurtTime > 0 && !thePlayer.isDead && !mc.thePlayer!!.isPotionActive(classProvider.getPotionEnum(PotionType.MOVE_SPEED)) && !mc.thePlayer!!.isInWater) {
+                        if(classProvider.isCPacketPlayer((packet))) {
+                            event.cancelEvent()
+                        }
+                        packetEntityVelocity.motionX *= 0
+                        packetEntityVelocity.motionY *= 0
+                        packetEntityVelocity.motionZ *= 0
+                    }
+                }
+                "grimac-fdp" -> {
+                    if(thePlayer.hurtTime > 0 && !thePlayer.isDead && !mc.thePlayer!!.isPotionActive(classProvider.getPotionEnum(PotionType.MOVE_SPEED)) && !mc.thePlayer!!.isInWater) {
+                        if(packet is SPacketConfirmTransaction) {
+                            event.cancelEvent()
+                        }
+                        if(packet is SPacketEntityVelocity) {
+                            event.cancelEvent()
+                        }
+                    }
+                }
                 "vanilla" -> {
                     event.cancelEvent()
                 }

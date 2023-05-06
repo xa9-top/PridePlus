@@ -30,11 +30,7 @@ import net.ccbluex.liquidbounce.value.ListValue
 import net.minecraft.item.ItemSword
 import net.minecraft.network.Packet
 import net.minecraft.network.play.INetHandlerPlayServer
-import net.minecraft.network.play.client.CPacketAnimation
-import net.minecraft.network.play.client.CPacketEntityAction
-import net.minecraft.network.play.client.CPacketPlayer
-import net.minecraft.network.play.client.CPacketPlayerDigging
-import net.minecraft.network.play.client.CPacketUseEntity
+import net.minecraft.network.play.client.*
 import net.minecraft.util.EnumFacing
 import java.util.*
 
@@ -42,7 +38,7 @@ import java.util.*
         category = ModuleCategory.MOVEMENT)
 class NoSlow : Module() {
 
-    private val modeValue = ListValue("PacketMode", arrayOf("None",           "HuaYuTing",     "Vanilla","NoPacket","AAC","AAC5", "Matrix", "Vulcan", "Custom"), "AntiCheat")
+    private val modeValue = ListValue("PacketMode", arrayOf("None","GrimAC",           "HuaYuTing",     "Vanilla","NoPacket","AAC","AAC5", "Matrix", "Vulcan", "Custom"), "AntiCheat")
     private val blockForwardMultiplier = FloatValue("BlockForwardMultiplier", 1.0F, 0.2F, 1.0F)
     private val blockStrafeMultiplier = FloatValue("BlockStrafeMultiplier", 1.0F, 0.2F, 1.0F)
     private val consumeForwardMultiplier = FloatValue("ConsumeForwardMultiplier", 1.0F, 0.2F, 1.0F)
@@ -145,6 +141,19 @@ class NoSlow : Module() {
                     mc.thePlayer!!.motionX=mc.thePlayer!!.motionX
                     mc.thePlayer!!.motionY=mc.thePlayer!!.motionY
                     mc.thePlayer!!.motionZ= mc.thePlayer!!.motionZ
+                }
+                "grimac"->{
+                    if((event.eventState == EventState.PRE && mc.thePlayer!!.itemInUse != null && mc.thePlayer!!.itemInUse!!.item != null) && !mc.thePlayer!!.isBlocking && classProvider.isItemFood(mc.thePlayer!!.heldItem!!.item) || classProvider.isItemPotion(mc.thePlayer!!.heldItem!!.item)){
+                        if(mc.thePlayer!!.isUsingItem && mc.thePlayer!!.itemInUseCount >= 1){
+                            mc2.connection!!.sendPacket(CPacketHeldItemChange((mc2.player.inventory.currentItem+1)%9))
+                            mc2.connection!!.sendPacket(CPacketHeldItemChange(mc2.player.inventory.currentItem))
+                        }
+                    }
+                    if (event.eventState == EventState.PRE && classProvider.isItemSword(mc.thePlayer!!.heldItem!!.item)) {
+                        mc.netHandler.addToSendQueue(classProvider.createCPacketPlayerDigging(ICPacketPlayerDigging.WAction.RELEASE_USE_ITEM,
+                            WBlockPos.ORIGIN, classProvider.getEnumFacing(EnumFacingType.DOWN)))
+                        mc.netHandler.addToSendQueue(classProvider.createCPacketPlayerBlockPlacement(mc.thePlayer!!.inventory.getCurrentItemInHand() as IItemStack))
+                    }
                 }
                 "hauyuting" -> {
                     if (event.eventState == EventState.PRE) {
