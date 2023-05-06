@@ -165,8 +165,8 @@ class Notification(val title: String, val content: String, val type: NotifyType,
 
         if (s == "INFO") {
             RenderUtils.drawShadowWithCustomAlpha(38F,0F,width - 50F,28F,255f)
-            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(192,192,192,190))
-            Fonts.tenacitycheck60.drawString("m",42F,9F,Color(192,192,192,255).rgb)
+            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(192,192,192,100))
+            Fonts.tenacitycheck60.drawString("m",42F,9F,Color(192,192,192,150).rgb)
             Fonts.fontSFUI40.drawString(title,60F,3f,Color.white.rgb)
             Fonts.font30.drawString(content,60f,16f,Color.white.rgb)
         }
@@ -174,8 +174,8 @@ class Notification(val title: String, val content: String, val type: NotifyType,
         if (s == "WARNING") {
 
             RenderUtils.drawShadowWithCustomAlpha(38F,0F,width - 50F,28F,255f)
-            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(224,194,30,170))
-            Fonts.tenacitycheck60.drawString("r",42F,9F,Color(224,194,30,255).rgb)
+            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(224,194,30,100))
+            Fonts.tenacitycheck60.drawString("r",42F,9F,Color(224,194,30,150).rgb)
             Fonts.fontSFUI40.drawString(title,60F,3f,Color.white.rgb)
             Fonts.font30.drawString(content,60f,16f,Color.white.rgb)
         }
@@ -183,16 +183,16 @@ class Notification(val title: String, val content: String, val type: NotifyType,
         if (s == "SUCCESS") {
 
             RenderUtils.drawShadowWithCustomAlpha(38F,0F,width - 50F,28F,255f)
-            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(90 ,239, 87,200 ))
-            Fonts.tenacitycheck60.drawString("o",42F,9F,Color(90 ,239, 87,240).rgb)
+            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(90 ,239, 87,100 ))
+            Fonts.tenacitycheck60.drawString("o",42F,9F,Color(90 ,239, 87,150).rgb)
             Fonts.fontSFUI40.drawString(title,60f,3f,Color.white.rgb)
             Fonts.font30.drawString(content,60f,16f,Color.white.rgb)
         }
         if (s == "ERROR") {
 
             RenderUtils.drawShadowWithCustomAlpha(38F,0F,width - 50F,28F,255f)
-            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(206,33,33,150))
-            Fonts.tenacitycheck60.drawString("p",42F,8F,Color(206,33,33,240).rgb)
+            RoundedUtil.drawRound(38F,0F,width - 50F,28F,4.5F, Color(206,33,33,100))
+            Fonts.tenacitycheck60.drawString("p",42F,8F,Color(206,33,33,150).rgb)
             Fonts.fontSFUI40.drawString(title,60F,3f,Color.white.rgb)
             Fonts.font30.drawString(content,60f,16f,Color.white.rgb)
         }

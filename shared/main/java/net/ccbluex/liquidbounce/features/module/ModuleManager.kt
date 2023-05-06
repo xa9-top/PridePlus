@@ -221,6 +221,7 @@ class ModuleManager : Listenable {
             JumpCircle::class.java,
             NoLagBack::class.java,
             PrideDisabler::class.java,
+            ScaffoldHelper::class.java,
                 PortalMenu::class.java
         )
 

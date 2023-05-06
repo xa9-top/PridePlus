@@ -141,6 +141,55 @@ public final class RotationUtils extends MinecraftInstance implements Listenable
         return vecRotation;
     }
 
+    public static VecRotation lockView2(final IAxisAlignedBB bb, final boolean outborder, final boolean random,
+                                       final boolean predict, final boolean throughWalls, final float distance) {
+        if (outborder) {
+            final WVec3 vec3 = new WVec3(bb.getMinX() + (bb.getMaxX() - bb.getMinX()) * (x * 0.3 + 1.0), bb.getMinY() + (bb.getMaxY() - bb.getMinY()) * (y * 0.3 + 1.0), bb.getMinZ() + (bb.getMaxZ() - bb.getMinZ()) * (z * 0.3 + 1.0));
+            return new VecRotation(vec3, toRotation(vec3, predict));
+        }
+
+        final WVec3 randomVec = new WVec3(bb.getMinX() + (bb.getMaxX() - bb.getMinX()) * x * 0.8, bb.getMinY() + (bb.getMaxY() - bb.getMinY()) * y * 0.8, bb.getMinZ() + (bb.getMaxZ() - bb.getMinZ()) * z * 0.8);
+        final Rotation randomRotation = toRotation(randomVec, predict);
+
+        final WVec3 eyes = mc.getThePlayer().getPositionEyes(1F);
+
+        double xMin = 0.0D;
+        double yMin = 0.0D;
+        double zMin = 0.0D;
+        double xMax = 0.0D;
+        double yMax = 0.0D;
+        double zMax = 0.0D;
+        double xDist = 0.0D;
+        double yDist = 0.0D;
+        double zDist = 0.0D;
+        VecRotation vecRotation = null;
+        xMin = 0.45D; xMax = 0.55D; xDist = 0.0125D;
+        yMin = 0.05D; yMax = 0.15D; yDist = 0.0125D;
+        zMin = 0.45D; zMax = 0.55D; zDist = 0.0125D;
+        for(double xSearch = xMin; xSearch < xMax; xSearch += xDist) {
+            for (double ySearch = yMin; ySearch < yMax; ySearch += yDist) {
+                for (double zSearch = zMin; zSearch < zMax; zSearch += zDist) {
+                    final WVec3 vec3 = new WVec3(bb.getMinX() + (bb.getMaxX() - bb.getMinX()) * xSearch, bb.getMinY() + (bb.getMaxY() - bb.getMinY()) * ySearch, bb.getMinZ() + (bb.getMaxZ() - bb.getMinZ()) * zSearch);
+
+                    final Rotation rotation = toRotation(vec3, predict);
+                    final double vecDist = eyes.distanceTo(vec3);
+
+                    if (vecDist > distance)
+                        continue;
+
+                    if (throughWalls || isVisible(vec3)) {
+                        final VecRotation currentVec = new VecRotation(vec3, rotation);
+
+                        if (vecRotation == null || (random ? getRotationDifference(currentVec.getRotation(), randomRotation) < getRotationDifference(vecRotation.getRotation(), randomRotation) : getRotationDifference(currentVec.getRotation()) < getRotationDifference(vecRotation.getRotation())))
+                            vecRotation = currentVec;
+                    }
+                }
+            }
+        }
+
+        return vecRotation;
+    }
+
     public static net.ccbluex.liquidbounce.utils.VecRotation calculateCenter(final String calMode, final String randMode, final double randomRange, final AxisAlignedBB bb, final boolean predict, final boolean throughWalls) {
 
         /*if(outborder) {

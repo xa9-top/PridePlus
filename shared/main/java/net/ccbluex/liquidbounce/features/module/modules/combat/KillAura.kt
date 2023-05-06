@@ -58,6 +58,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.effect.EntityLightningBolt
 import net.minecraft.item.ItemSword
+import net.minecraft.network.play.client.CPacketConfirmTransaction
+import net.minecraft.network.play.client.CPacketPlayer
 import net.minecraft.network.play.client.CPacketPlayerDigging
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock
@@ -121,6 +123,7 @@ class KillAura : Module() {
     val keepSprintValue = BoolValue("KeepSprint", true)
     private val stopSprintAir = BoolValue("StopSprintOnAir",true)
     private val airBypass = BoolValue("airBypass",true)
+    private val cancelC0f = BoolValue("CancelC0f",false)
     // AutoBlock
 
     private val autoBlockValue = ListValue("AutoBlock", arrayOf("HuaYuTing","AllTime","Range","Off"),"Off")
@@ -162,7 +165,7 @@ class KillAura : Module() {
     private val lightingModeValue = ListValue("Lighting-Mode", arrayOf("Dead", "Attack"), "Dead")
     private val lightingSoundValue = BoolValue("Lighting-Sound", true)
     private val randomCenterValue = BoolValue("RandomCenter", true)
-    private val rotations = ListValue("RotationMode", arrayOf("None", "New", "Liquidbounce","BackTrack", "Test1", "Test2", "HytRotation","KanaeSb"), "New")
+    private val rotations = ListValue("RotationMode", arrayOf("None", "New", "Liquidbounce","BackTrack", "Test1", "Test2", "HytRotation","KanaeSb","Down"), "New")
     private val outborderValue = BoolValue("Outborder", false)
     private val silentRotationValue = BoolValue("SilentRotation", true)
     private val rotationStrafeValue = ListValue("Strafe", arrayOf("Off", "Strict", "Silent"), "Off")
@@ -400,6 +403,15 @@ class KillAura : Module() {
             0f,
             colorAlphaValue.get() / 255.0f
         )
+    }
+    @EventTarget
+    fun onPacket(event: PacketEvent){
+        val packet = event.packet
+        if (cancelC0f.get()){
+            if (packet is CPacketConfirmTransaction) {
+                event.cancelEvent()
+            }
+        }
     }
     /**
      * Update event
@@ -1219,7 +1231,11 @@ class KillAura : Module() {
                 maxRange
             ) ?: return false
 
-            val limitedRotation =   RotationUtils.limitAngleChange(RotationUtils.serverRotation, RotationUtils.toRotation(RotationUtils.getCenter(entity.entityBoundingBox),false),(Math.random() * (maxTurnSpeed.get() - minTurnSpeed.get()) + minTurnSpeed.get()).toFloat())
+            val limitedRotation =   RotationUtils.limitAngleChange(
+                RotationUtils.serverRotation,
+                RotationUtils.toRotation(RotationUtils.getCenter(entity.entityBoundingBox),
+                    false
+                ),(Math.random() * (maxTurnSpeed.get() - minTurnSpeed.get()) + minTurnSpeed.get()).toFloat())
 
             if (silentRotationValue.get())
                 RotationUtils.setTargetRotation(limitedRotation, if (aacValue.get()) 15 else 0)
@@ -1244,7 +1260,36 @@ class KillAura : Module() {
                 maxRange
             ) ?: return false
 
-            val limitedRotation = RotationUtils.limitAngleChange(RotationUtils.serverRotation,
+            val limitedRotation = RotationUtils.limitAngleChange(
+                RotationUtils.serverRotation,
+                rotation,
+                (Math.random() * (maxTurnSpeed.get() - minTurnSpeed.get()) + minTurnSpeed.get()).toFloat())
+
+            if (silentRotationValue.get())
+                RotationUtils.setTargetRotation(limitedRotation, if (aacValue.get()) 15 else 0)
+            else
+                limitedRotation.toPlayer(mc.thePlayer!!)
+
+            return true
+        }
+        if (rotations.get().equals("Down", ignoreCase = true)) {
+            if (predictValue.get())
+                boundingBox = boundingBox.offset(
+                    (entity.posX - entity.prevPosX) * RandomUtils.nextFloat(minPredictSize.get(), maxPredictSize.get()),
+                    (entity.posY - entity.prevPosY) * RandomUtils.nextFloat(minPredictSize.get(), maxPredictSize.get()),
+                    (entity.posZ - entity.prevPosZ) * RandomUtils.nextFloat(minPredictSize.get(), maxPredictSize.get())
+                )
+            val (_, rotation) = RotationUtils.lockView2(
+                boundingBox,
+                outborderValue.get() && !attackTimer.hasTimePassed(attackDelay / 2),
+                randomCenterValue.get(),
+                predictValue.get(),
+                mc.thePlayer!!.getDistanceToEntityBox(entity) < throughWallsRangeValue.get(),
+                maxRange
+            ) ?: return false
+
+            val limitedRotation = RotationUtils.limitAngleChange(
+                RotationUtils.serverRotation,
                 rotation,
                 (Math.random() * (maxTurnSpeed.get() - minTurnSpeed.get()) + minTurnSpeed.get()).toFloat())
 

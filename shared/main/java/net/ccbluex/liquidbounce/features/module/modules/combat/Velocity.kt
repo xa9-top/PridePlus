@@ -37,8 +37,8 @@ class Velocity : Module() {
      */
     private val horizontalValue = FloatValue("Horizontal", 0F, 0F, 1F)
     private val verticalValue = FloatValue("Vertical", 0F, 0F, 1F)
-    private val modeValue = ListValue("Mode", arrayOf("GrimAC-FDP","GrimAC-C03","NewGrimAC","Custom","AAC4","Simple","AAC", "AACPush", "AACZero",
-        "Reverse", "SmoothReverse", "Jump", "AAC5Reduce", "HytPacketA" ,"Glitch","HytCancel","HytTick","Vanilla","HytTest","HytNewTest","HytPacket","NewAAC4","FeiLe","HytMotion","NewHytMotion","HytPacketB","HytMotionB","HytPacketFix","S27","LatestTestHyt","Grim-Motion","GrimReduce"), "Vanilla")
+    private val modeValue = ListValue("Mode", arrayOf("GrimAC-FDP","GrimAC-C03","NewGrimAC","Custom","Simple","AACPush", "AACZero",
+        "Reverse", "SmoothReverse", "Jump", "AAC5Reduce", "HytPacketA" ,"Glitch","HytTick","Vanilla","HytTest","HytNewTest","HytPacket","NewAAC4","FeiLe","HytMotion","NewHytMotion","HytPacketB","HytMotionB","HytPacketFix","LatestTestHyt","Grim-Motion","GrimReduce"), "Vanilla")
     private val aac4XZReducerValue = FloatValue("AAC4XZReducer", 1.36F, 1F, 3F)
     private val newaac4XZReducerValue = FloatValue("NewAAC4XZReducer", 0.45F, 0F, 1F)
 
@@ -197,18 +197,6 @@ class Velocity : Module() {
                     velocityInput = false
             }
 
-            "aac4" -> {
-                if (!thePlayer.onGround) {
-                    if (velocityInput) {
-                        thePlayer.speedInAir = 0.02f
-                        thePlayer.motionX *= 0.6
-                        thePlayer.motionZ *= 0.6
-                    }
-                } else if (velocityTimer.hasTimePassed(80L)) {
-                    velocityInput = false
-                    thePlayer.speedInAir = 0.02f
-                }
-            }
             "newaac4"->{
                 if (thePlayer.hurtTime > 0 && !thePlayer.onGround){
                     val reduce = newaac4XZReducerValue.get()
@@ -236,12 +224,6 @@ class Velocity : Module() {
                 }
             }
 
-            "aac" -> if (velocityInput && velocityTimer.hasTimePassed(80L)) {
-                thePlayer.motionX *= horizontalValue.get()
-                thePlayer.motionZ *= horizontalValue.get()
-                //mc.thePlayer.motionY *= verticalValue.get() ?
-                velocityInput = false
-            }
 
 
             "hytpacket" ->{
@@ -391,20 +373,13 @@ class Velocity : Module() {
                         if(packet is SPacketEntityVelocity) {
                             event.cancelEvent()
                         }
+                        if(packet is CPacketConfirmTransaction) {
+                            event.cancelEvent()
+                        }
                     }
                 }
                 "vanilla" -> {
                     event.cancelEvent()
-                }
-                "s27"->{
-
-                    if(classProvider.isSPacketExplosion(packet)){
-                        event.cancelEvent()
-                    }
-                    val horizontal = horizontalValue.get()
-                    val vertical = verticalValue.get()
-                    packetEntityVelocity.motionX = (packetEntityVelocity.motionX * horizontal).toInt()
-                    packetEntityVelocity.motionZ = (packetEntityVelocity.motionZ * horizontal).toInt()
                 }
                 "simple" -> {
                     val horizontal = horizontalValue.get()
@@ -488,10 +463,6 @@ class Velocity : Module() {
                         return
 
                     velocityInput = true
-                    event.cancelEvent()
-                }
-
-                "hytcancel" -> {
                     event.cancelEvent()
                 }
             }
